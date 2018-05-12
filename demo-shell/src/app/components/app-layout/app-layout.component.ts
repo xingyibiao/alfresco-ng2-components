@@ -33,6 +33,7 @@ export class AppLayoutComponent implements OnInit {
         { href: '/home', icon: 'home', title: 'APP_LAYOUT.HOME' },
         { href: '/files', icon: 'folder_open', title: 'APP_LAYOUT.CONTENT_SERVICES' },
         { href: '/activiti', icon: 'device_hub', title: 'APP_LAYOUT.PROCESS_SERVICES' },
+        { href: '/process-cloud', icon: 'cloud', title: 'Process Cloud' },
         { href: '/login', icon: 'vpn_key', title: 'APP_LAYOUT.LOGIN' },
         { href: '/trashcan', icon: 'delete', title: 'APP_LAYOUT.TRASHCAN' },
         { href: '/dl-custom-sources', icon: 'extension', title: 'APP_LAYOUT.CUSTOM_SOURCES' },

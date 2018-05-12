@@ -17,7 +17,7 @@
 
 import { ModuleWithProviders } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard, AuthGuardBpm, AuthGuardEcm } from '@alfresco/adf-core';
+import { AuthGuard, AuthGuardBpm, AuthGuardEcm, AuthGuardSSO} from '@alfresco/adf-core';
 import { AppLayoutComponent } from './components/app-layout/app-layout.component';
 import { LoginComponent } from './components/login/login.component';
 import { SettingsComponent } from './components/settings/settings.component';
@@ -47,6 +47,7 @@ import { SharedLinkViewComponent } from './components/shared-link-view/shared-li
 import { FormLoadingComponent } from './components/form/form-loading.component';
 import { DemoPermissionComponent } from './components/permissions/demo-permissions.component';
 import { BlobPreviewComponent } from './components/blob-preview/blob-preview.component';
+import { AppsCloudViewComponent } from './components/process-cloud/apps-cloud-view.component';
 
 export const appRoutes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -114,6 +115,11 @@ export const appRoutes: Routes = [
                 path: 'activiti',
                 component: AppsViewComponent,
                 canActivate: [AuthGuardBpm]
+            },
+            {
+                path: 'process-cloud',
+                component: AppsCloudViewComponent,
+                canActivate: [AuthGuardSSO]
             },
             {
                 path: 'activiti/apps',

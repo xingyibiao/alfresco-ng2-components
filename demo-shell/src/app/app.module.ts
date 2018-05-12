@@ -51,6 +51,7 @@ import { ProcessAttachmentsComponent } from './components/process-service/proces
 import { SharedLinkViewComponent } from './components/shared-link-view/shared-link-view.component';
 import { DemoPermissionComponent } from './components/permissions/demo-permissions.component';
 import { PreviewService } from './services/preview.service';
+import { AppsCloudViewComponent } from './components/process-cloud/apps-cloud-view.component';
 
 @NgModule({
     imports: [
@@ -82,6 +83,7 @@ import { PreviewService } from './services/preview.service';
         FormViewerComponent,
         FormNodeViewerComponent,
         AppsViewComponent,
+        AppsCloudViewComponent,
         DataTableComponent,
         FilesComponent,
         FileViewComponent,

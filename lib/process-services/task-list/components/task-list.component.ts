@@ -51,6 +51,10 @@ export class TaskListComponent implements OnChanges, AfterContentInit, Paginated
     @Input()
     processInstanceId: string;
 
+    /** The Definition Id of the process. */
+    @Input()
+    processDefinitionId: string;
+
     /** The Definition Key of the process.
      * @deprecated 2.4.0
      */
@@ -373,6 +377,7 @@ export class TaskListComponent implements OnChanges, AfterContentInit, Paginated
         let requestNode = {
             appDefinitionId: this.appId,
             processInstanceId: this.processInstanceId,
+            processDefinitionId: this.processDefinitionId,
             processDefinitionKey: this.processDefinitionKey,
             text: this.name,
             assignment: this.assignment,

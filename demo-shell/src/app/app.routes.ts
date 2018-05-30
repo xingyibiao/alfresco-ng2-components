@@ -64,7 +64,7 @@ export const appRoutes: Routes = [
     {
         path: '',
         component: AppLayoutComponent,
-        canActivate: [AuthGuardSSO],
+        canActivate: [AuthGuard],
         children: [
             {
                 path: '',

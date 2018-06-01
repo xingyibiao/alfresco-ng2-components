@@ -54,7 +54,6 @@ import {
 } from '@alfresco/adf-process-services';
 import { LogService } from '@alfresco/adf-core';
 import { AlfrescoApiService, UserPreferencesService } from '@alfresco/adf-core';
-import { ObjectDataRow } from '@alfresco/adf-core';
 import { Subscription } from 'rxjs/Subscription';
 import { /*CustomEditorComponent*/ CustomStencil01 } from './custom-editor/custom-editor.component';
 import { DemoFieldValidator } from './demo-field-validator';
@@ -144,6 +143,8 @@ export class ProcessServiceComponent implements AfterViewInit, OnDestroy, OnInit
 
     presetColumn = 'default';
     showProcessPagination = false;
+    showTaskTab = true;
+    showProcessTab = false;
 
     fieldValidators = [
         ...FORM_FIELD_VALIDATORS,
@@ -161,7 +162,6 @@ export class ProcessServiceComponent implements AfterViewInit, OnDestroy, OnInit
                 formService: FormService,
                 private location: Location,
                 private preferenceService: UserPreferencesService) {
-
 
         this.defaultProcessName = this.appConfig.get<string>('adf-start-process.name');
         this.defaultProcessDefinitionName = this.appConfig.get<string>('adf-start-process.processDefinitionName');
@@ -241,10 +241,11 @@ export class ProcessServiceComponent implements AfterViewInit, OnDestroy, OnInit
 
     onTabChange(event: any): void {
         const index = event.index;
-        this.showProcessPagination = index === PROCESS_ROUTE;
         if (index === TASK_ROUTE) {
+            this.showTaskTab = event.index === this.tabs.tasks;
             this.relocateLocationToTask();
         } else if (index === PROCESS_ROUTE) {
+            this.showProcessTab =  event.index === this.tabs.processes;
             this.relocateLocationToProcess();
         } else if (index === REPORT_ROUTE) {
             this.relocateLocationToReport();
@@ -302,7 +303,6 @@ export class ProcessServiceComponent implements AfterViewInit, OnDestroy, OnInit
     }
 
     onSuccessProcessList(event: any): void {
-        this.showProcessPagination = true;
         this.currentProcessInstanceId = this.processList.getCurrentId();
     }
 
@@ -346,7 +346,6 @@ export class ProcessServiceComponent implements AfterViewInit, OnDestroy, OnInit
     }
 
     onStartProcessInstance(instance: ProcessInstance): void {
-        this.showProcessPagination = false;
         this.currentProcessInstanceId = instance.id;
         this.activitiStartProcess.reset();
         this.activitiprocessfilter.selectRunningFilter();
@@ -385,7 +384,7 @@ export class ProcessServiceComponent implements AfterViewInit, OnDestroy, OnInit
     }
 
     relocateLocationToProcess(): void {
-        this.location.go(`/activiti/apps/${this.appId || 0}/processes/${this.processFilter.id}`);
+        this.location.go(`/activiti/apps/${this.appId || 0}/processes/${this.processFilter ? this.processFilter.id : 0}`);
     }
 
     relocateLocationToTask(): void {
@@ -445,11 +444,11 @@ export class ProcessServiceComponent implements AfterViewInit, OnDestroy, OnInit
         this.activeTab = this.tabs.tasks;
 
         const taskId = event.value.id;
-        const processTaskDataRow = new ObjectDataRow({
+        const processTaskDataRow: any = {
             id: taskId,
             name: event.value.name || 'No name',
             created: event.value.created
-        });
+        };
         this.activitifilter.selectFilter(null);
         if (this.taskList) {
             this.taskList.setCustomDataSource([processTaskDataRow]);

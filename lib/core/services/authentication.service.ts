@@ -27,6 +27,7 @@ import 'rxjs/add/observable/fromPromise';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { RedirectionModel } from '../models/redirection.model';
+import { UserRepresentation } from 'alfresco-js-api';
 
 const REMEMBER_ME_COOKIE_KEY = 'ALFRESCO_REMEMBER_ME';
 const REMEMBER_ME_UNTIL = 1000 * 60 * 60 * 24 * 30 ;
@@ -241,6 +242,10 @@ export class AuthenticationService {
      */
     getBpmUsername(): string {
         return this.alfrescoApi.getInstance().bpmAuth.username;
+    }
+
+    getBpmLoggedUser(): Observable<UserRepresentation> {
+        return Observable.fromPromise(this.alfrescoApi.getInstance().activiti.profileApi.getProfile());
     }
 
     /** Sets the URL to redirect to after login.

@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 
-import { Component, SimpleChange, ViewChild } from '@angular/core';
+import { Component, SimpleChange, ViewChild, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
+import { By } from '@angular/platform-browser';
+
 import { ProcessInstanceListComponent } from './process-list.component';
 
 import { AppConfigService, setupTestBed, CoreModule } from '@alfresco/adf-core';
@@ -551,4 +553,41 @@ describe('CustomProcessListComponent', () => {
         expect(component.processList.data.getColumns()[2].title).toEqual('ADF_PROCESS_LIST.PROPERTIES.CREATED');
         expect(component.processList.data.getColumns().length).toEqual(3);
     });
+});
+
+@Component({
+    template: `
+    <adf-process-instance-list>
+        <adf-empty-content-holder>
+            <p id="custom-id"></p>
+        </adf-empty-content-holder>
+    </adf-process-instance-list>
+       `
+})
+class EmptyTemplateComponent {
+}
+
+describe('Custom EmptyTemplateComponent', () => {
+    let component: EmptyTemplateComponent;
+    let fixture: ComponentFixture<EmptyTemplateComponent>;
+
+    setupTestBed({
+        imports: [ProcessTestingModule],
+        declarations: [EmptyTemplateComponent],
+        schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+    });
+
+    beforeEach(() => {
+        fixture = TestBed.createComponent(EmptyTemplateComponent);
+        fixture.detectChanges();
+        component = fixture.componentInstance;
+    });
+
+    it('should render the custom template', async(() => {
+        fixture.whenStable().then(() => {
+            fixture.detectChanges();
+            expect(fixture.debugElement.query(By.css('#custom-id'))).not.toBeNull();
+            expect(fixture.debugElement.query(By.css('.adf-empty-content'))).toBeNull();
+        });
+    }));
 });
